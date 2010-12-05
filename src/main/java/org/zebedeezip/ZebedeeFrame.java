@@ -26,9 +26,9 @@ public class ZebedeeFrame extends JFrame {
                 if (log.isInfoEnabled()) {
                     log.info("[ShutDown] : closing ZipManager...");
                 }
-                if (_currentZipManager != null) {
+                if (_currentZipContents != null) {
                     try {
-                        _currentZipManager.close();
+                        _currentZipContents.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -80,12 +80,12 @@ public class ZebedeeFrame extends JFrame {
         _startLocation = file.getParentFile().getAbsolutePath();
         syncPrefs();
 
-        if (_currentZipManager != null) {
-            _currentZipManager.close();
+        if (_currentZipContents != null) {
+            _currentZipContents.close();
         }
-        _currentZipManager = new ZipFileManager(file);
-        _currentZipManager.open();
-        _table.setEntries(_currentZipManager.getEntries());
+        _currentZipContents = new ZipFileContents(file);
+        _currentZipContents.open();
+        _table.setEntries(_currentZipContents.getEntries());
     }
 
     private void syncPrefs() {
@@ -117,5 +117,5 @@ public class ZebedeeFrame extends JFrame {
     private String _startLocation = "~";
     private ZipEntryTable _table;
 
-    private ZipFileManager _currentZipManager;
+    private ZipFileContents _currentZipContents;
 }
